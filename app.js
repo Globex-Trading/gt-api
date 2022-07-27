@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { errorHandler } = require('./middleware/errorMiddleware');
 
 require('dotenv').config();
 
@@ -14,7 +15,11 @@ mongoose.connect(process.env.MONGODB_CONNECT_URI)
 	.then(() => console.log('Connected to MongoDB...'))
 	.catch(err => console.error('Could not connect to MongoDB...', err));
 
+
+app.use(errorHandler);
+
 //Set Routers
 app.use('/alerts', require('./routes/alerts'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 exports.app = app;

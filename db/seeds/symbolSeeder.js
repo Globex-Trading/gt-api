@@ -50,11 +50,11 @@ const seed = async () => {
 
 	try {
 		await Symbol.insertMany(binanceSymbols);
-		console.log("Binance Symbols were Successfully Inserted.");
+		console.log('Binance Symbols were Successfully Inserted.');
 	} catch (error) {
 		console.log(error);
 	}
 
-}
+};
 
 exports.seed =seed;

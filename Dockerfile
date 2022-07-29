@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.16
 RUN addgroup app && adduser -S -G app app
 USER app
-LABEL org.opencontainers.image.source="https://github.com/Globex-Trading/gt-data-fetcher-publisher"
+LABEL org.opencontainers.image.source="https://github.com/Globex-Trading/gt-api"
 WORKDIR /app
 
 #First copy only the package.json (To take advantage of Docker cache layers)

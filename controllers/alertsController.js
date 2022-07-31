@@ -45,10 +45,12 @@ const getToken = (req,res) => {
 	//save to db (configToken, userID)
 };
 
-
+const addAlert = (req,res) => {
+	console.log(req.body);
+};
 
 module.exports = {
 	triggerAlerts,
 	getToken,
-    
+	addAlert
 };

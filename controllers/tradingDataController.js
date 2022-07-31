@@ -1,4 +1,4 @@
-const cryptoService = require('../services/cryptoService');
+const tradingDataService = require('../services/tradingDataService');
 const candleStickValidation = require('../validations/crypto/candleStick');
 
 const getCandleStickPastData = async (req, res) => {
@@ -7,7 +7,7 @@ const getCandleStickPastData = async (req, res) => {
 
 	const {provider, symbol, interval, start, end} = value;
 
-	const candles = await cryptoService.findCandleStickPastData(provider, symbol, interval, start, end);
+	const candles = await tradingDataService.findCandleStickPastData(provider, symbol, interval, start, end);
 
 	if(candles) {
 		res.status(200).json(candles);
@@ -16,6 +16,11 @@ const getCandleStickPastData = async (req, res) => {
 	}
 };
 
+const getLinePastData = async (req, res) => {
+	console.log(req.body);
+};
+
 module.exports = {
-	getCandleStickPastData
+	getCandleStickPastData,
+	getLinePastData
 };

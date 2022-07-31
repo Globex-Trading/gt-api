@@ -20,7 +20,7 @@ app.use(errorHandler);
 
 //Set Routers
 app.use('/alerts', require('./routes/alerts'));
-app.use('/crypto', require('./routes/crypto'));
+app.use('/trading-data', require('./routes/tradingData'));
 app.use('/api/users', require('./routes/userRoutes'));
 
 

@@ -8,10 +8,10 @@ const seed = async () => {
 	});
 	try {
 		await newProvider.save();
-		console.log("Binance Provider saved.");
+		console.log('Binance Provider saved.');
 	} catch (error) {
 		console.log(error);
 	}
-}
+};
 
 exports.seed =seed;

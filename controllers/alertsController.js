@@ -1,34 +1,57 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 const {sendAlerts}=require('../helper/sendAlerts');
+const { Alert } = require('../models/alert');
+const { User } = require('../models/user');
+const asyncHandler = require('express-async-handler');
 
-const triggerAlerts = (req,res) => {
+const triggerAlerts =asyncHandler( async(req,res) => {
 	//An array of alert IDs
 	const alert_ids = req.body.alert_ids;
 
 	if (!alert_ids) {
-		res.status(401);
+		res.status(200);
 		throw new Error('alertIDs not found');
 	}
 
-	console.log(alert_ids);
+
 	res.status(201).json(alert_ids);
 
-	//TODO
-	//get relevant config tokens using userID
-	const configTokens=['123365','255522','782321'];
 
-	//TODO
-	//get alert object from db and and get msg (price)
-	const msg='msg in alert';
+	//get alert objects from alertId
+	const alertObjects = await Alert.find().where('_id').in(alert_ids).exec();
+	// const alertObjects=[
+	// 	{provider:'binance',
+	// 		symbol:'btc',
+	// 		trigger_price:'10000',
+	// 		user:'62e6a546ee10619bd092086f'
+	// 	},
+	// 	{provider:'binance',
+	// 		symbol:'eth',
+	// 		trigger_price:'2000',
+	// 		user:'62e6a7be2a6393df82fd63a8'},
+	// ];
 
-	//send push notifications
-	configTokens.map((token)=>{sendAlerts(token,msg);});
+
+	alertObjects.forEach(async function(itm){
+		
+		//get alert from each object 
+		const msg=itm.trigger_price;
+
+
+		//get config token list from db using user id
+		const user = await User.findById(itm.user).exec();
+		const configTokens=user.config_tokens;
 
 	
+		configTokens.map((token)=>{sendAlerts(token,msg);});
+	});
 
-};
 
 
-const getToken = (req,res) => {
+});
+
+
+const getToken =asyncHandler( async (req,res) => {
 	//get config token and user ID from react app
 	const { configToken, userID } = req.body;
 	
@@ -41,16 +64,20 @@ const getToken = (req,res) => {
 		userID: userID
 	});
 
-	//TODO
+	
 	//save to db (configToken, userID)
-};
+	const updated=await User.findByIdAndUpdate(
+		{ _id: userID},
+		{'$push': { 'config_tokens': configToken } }
+	  ).exec(console.log('user not found'));
 
-const addAlert = (req,res) => {
-	console.log(req.body);
-};
+	 
+});
+
+
 
 module.exports = {
 	triggerAlerts,
 	getToken,
-	addAlert
+	
 };

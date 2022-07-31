@@ -45,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
-			token: generateToken(user._id),
+			token: generateToken(user._id,user.user_type),
 		});
 	} else {
 		res.status(400);
@@ -69,7 +69,7 @@ const loginUser = asyncHandler(async (req, res) => {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
-			token: generateToken(user._id),
+			token: generateToken(user._id,user.user_type),
 		});
 	} else {
 		res.status(401);
@@ -91,9 +91,9 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 // Generate token
-const generateToken = (id) => {
-	return jwt.sign({ id }, process.env.JWT_SECRET, {
-		expiresIn: '30d',
+const generateToken = (id,type) => {
+	return jwt.sign({ id , type }, process.env.JWT_SECRET, {
+		expiresIn: '15d',
 	});
 };
 

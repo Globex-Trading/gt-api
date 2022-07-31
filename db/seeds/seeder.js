@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 
 const providerSeeder = require('./providerSeeder');
 const symbolSeeder = require('./symbolSeeder');
+const alertTypeSeeder = require('./alertTypeSeeder');
 
 const runSeeder = async () => {
-	const seederArray = [providerSeeder, symbolSeeder];
+	const seederArray = [providerSeeder, symbolSeeder, alertTypeSeeder];
 
 	for (const seeder of seederArray) {
 		await seeder.seed();

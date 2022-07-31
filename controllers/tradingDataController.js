@@ -1,5 +1,5 @@
 const tradingDataService = require('../services/tradingDataService');
-const candleStickValidation = require('../validations/crypto/candleStick');
+const candleStickValidation = require('../validations/tradingData');
 
 const getCandleStickPastData = async (req, res) => {
 	const {error, value} = candleStickValidation.validate(req.body, {abortEarly: false});

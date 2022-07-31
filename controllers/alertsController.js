@@ -1,4 +1,6 @@
 const {sendAlerts}=require('../helper/sendAlerts');
+const {alertValidationSchema} = require('../validations/alert');
+const alertService = require('../services/alertService');
 
 const triggerAlerts = (req,res) => {
 	//An array of alert IDs
@@ -45,8 +47,17 @@ const getToken = (req,res) => {
 	//save to db (configToken, userID)
 };
 
-const addAlert = (req,res) => {
-	console.log(req.body);
+const addAlert = async (req,res) => {
+	const {error, value} = alertValidationSchema.validate(req.body);
+
+	if(error) {
+		return res.status(400).json({status: 'FAILED', data: error.details});
+	}
+	const newAlert = await alertService.addAlert(value.provider, value.symbol, value.user, value.alert_type);
+	if(!newAlert) {
+		return res.status(500).json({status: 'FAILED', data: 'Alert could not be added'});
+	}
+	return res.status(200).json({status: 'SUCCESS', data: newAlert});
 };
 
 module.exports = {

@@ -1,6 +1,7 @@
 const fileHandler = require('../utilities/fileHandler');
+const priceDataStoreUtility = require('../utilities/priceDataStoreUtility');
 
-const storePriceData = (req,res) => {
+const storePriceData = async (req,res) => {
 	const { symbol_id: symbolID, interval: timeInterval } = req.body;
 	const dataFile = req.file;
 
@@ -9,6 +10,10 @@ const storePriceData = (req,res) => {
 		res.json({ code: 201, status: 'MISSING_INPUTS', message: 'Missing Inputs!'});
 		return;
 	}
+
+	const priceData = await priceDataStoreUtility.getCSVToArray('default', dataFile.path, timeInterval);
+	console.log(priceData);
+	console.log(priceData.length);
 
 	//Send Response
 	res.json({ code: 200, status: 'OK', message: 'Ok'});

@@ -32,8 +32,13 @@ const candleSchema = new mongoose.Schema({
 	}
 });
 
+const candleModelStore = {};
+
 const getModelForCollection = (collectionName) => {
-	return mongoose.model('Candle', candleSchema, collectionName);
+	if(!candleModelStore[collectionName]) {
+		candleModelStore[collectionName] = mongoose.model('Candle', candleSchema, collectionName);
+	}
+	return candleModelStore[collectionName];
 };
 
-exports.getModelForCollection = getModelForCollection;
+exports.getCandleModelForCollection = getModelForCollection;

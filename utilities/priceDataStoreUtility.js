@@ -1,9 +1,11 @@
 const csvHandler = require('./csvHandler');
+const moment = require('moment');
 
 const read1DayData = (record) => {
+	const openTime = moment(record[0] + 'T' + record[1]).unix();
 	return {
-		open_time: record[0],
-		close_time: 'c',
+		open_time: openTime,
+		close_time: openTime + 86400 - 1,
 		open_price: record[1],
 		close_price: record[4],
 		high_price: record[2],
@@ -13,9 +15,10 @@ const read1DayData = (record) => {
 };
 
 const read1HourData = (record) => {
+	const openTime = moment.utc(record[0] + 'T' + record[1]).unix();
 	return {
-		open_time: record[0]+record[1],
-		close_time: 'c',
+		open_time: openTime,
+		close_time: openTime + 3600- 1,
 		open_price: record[2],
 		close_price: record[5],
 		high_price: record[3],

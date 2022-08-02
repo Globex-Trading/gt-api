@@ -21,7 +21,8 @@ app.use(errorHandler);
 //Set Routers
 app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('/users', require('./routes/userRoutes'));
+app.use('/price-data-store', require('./routes/priceDataStore'));
 
 
 exports.app = app;

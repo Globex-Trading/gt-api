@@ -34,5 +34,23 @@ const getProviderBySlugWithSymbols = async (req,res) => {
 	});
 };
 
+const getSymbolsAndTimeframesForFetcherBySlug = async (req, res) => {
+	const providerSlug = req.params.provider_slug;
+	if (!providerSlug) return res.status(401);
+
+	const provider = await providerService.getProviderBySlugWithSymbols(providerSlug);
+	if (!provider) return res.status(401);
+
+	const data = {};
+	data['timeframes'] = provider.providedTimeFrames;
+	const symbols = provider.symbols.map(s => {
+		return s.providedName;
+	});
+	data['symbols'] = symbols;
+
+	return res.status(200).json(data);
+};
+
 exports.getAllProvidersWithSymbols = getAllProvidersWithSymbols;
 exports.getProviderBySlugWithSymbols = getProviderBySlugWithSymbols;
+exports.getSymbolsAndTimeframesForFetcherBySlug = getSymbolsAndTimeframesForFetcherBySlug;

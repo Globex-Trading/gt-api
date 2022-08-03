@@ -4,6 +4,10 @@ const candleSchema = new mongoose.Schema({
 	open_time: {
 		type: Number,
 		required: true,
+		index: {
+			type: -1,
+			unique: true
+		}
 	},
 	close_time: {
 		type: Number,

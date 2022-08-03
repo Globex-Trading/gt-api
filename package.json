@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "nodemon server.js",
-    "db-seed": "node db/seeds/seeder.js",
+    "db-deploy": "node db/deployDB.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,13 +14,17 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "csv-parse": "^5.3.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-async-handler": "^1.2.0",
     "fcm-node": "^1.6.1",
-    "jsonwebtoken": "^8.5.1",
     "joi": "^17.6.0",
-    "mongoose": "^6.4.7"
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.4",
+    "mongoose": "^6.4.7",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "^8.20.0",

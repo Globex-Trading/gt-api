@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./provider');
 
 const symbolSchema = new mongoose.Schema({
 	name: {

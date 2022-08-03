@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./user');
 
 const alertSchema = new mongoose.Schema({
 	provider: {

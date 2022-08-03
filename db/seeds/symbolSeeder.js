@@ -55,6 +55,37 @@ const seed = async () => {
 		console.log(error);
 	}
 
+	//Fetch Binance provider ID
+	const stockProvider = await Provider.findOne({ slug: 'stockbybm' });
+	if(!stockProvider) return;
+	const stockID = ObjectId(stockProvider._id);
+
+	//Binance Symbols
+	const stockSymbols = [
+		{
+			name: 'ACER',
+			providedName: 'ACER',
+			provider: ObjectId(stockID)
+		},
+		{
+			name: 'DELL',
+			providedName: 'DELL',
+			provider: ObjectId(stockID)
+		},
+		{
+			name: 'GOOGLE',
+			providedName: 'GOOGLE',
+			provider: ObjectId(stockID)
+		},
+	];
+
+	try {
+		await Symbol.insertMany(stockSymbols);
+		console.log('Stock Symbols were Successfully Inserted.');
+	} catch (error) {
+		console.log(error);
+	}
+
 };
 
 exports.seed =seed;

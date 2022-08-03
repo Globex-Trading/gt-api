@@ -29,10 +29,9 @@ const candleSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
-	// TODO : Make this require true with Spring Boot data fetcher
 	volume: {
 		type: Number,
-		required: false,
+		required: true,
 	}
 });
 

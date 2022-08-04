@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		type: Boolean,
 		default: false
+	},
+	config_tokens: {
+		type: [String],
+		required: false
+		
 	}
 });
 

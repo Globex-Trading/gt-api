@@ -1,9 +1,7 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
-
 const migrate = require('./migration/migrate');
 const seeder = require('./seeds/seeder');
 
+const {Migration} = require('../models/migration');
 
 const deployDB = async () => {
 	await migrate.runInitialCollectionsMigration();
@@ -16,13 +14,20 @@ const deployDB = async () => {
 	console.log('Price Data Collections Migration Finished.');
 };
 
-
-
-//Set up Database
-mongoose.connect(process.env.MONGODB_CONNECT_URI)
-	.then(async () => {
-		console.log('Connected to MongoDB...');
+const initDBDeploy = async () => {
+	const res = await Migration.count();
+	
+	if(res > 0) {
+		console.log('The DB has already been deployed.');
+	} else {
+		console.log('Preparing to start Database deployment.');
 		await deployDB();
-		mongoose.disconnect();
-	})
-	.catch(err => console.error('Could not connect to MongoDB...', err));
+		console.log('Finishing DB Deployment.');
+		await Migration.insertMany([{
+			migration_name: 'Initial Deployment'
+		}]);
+		console.log('DB Deployment Successful.');
+	}
+};
+
+exports.initDBDeploy = initDBDeploy;

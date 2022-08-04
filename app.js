@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { errorHandler } = require('./middleware/errorMiddleware');
+const {initDBDeploy} = require('./db/deployDB');
+
 
 require('dotenv').config();
 
@@ -12,7 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 //Set up Database
 mongoose.connect(process.env.MONGODB_CONNECT_URI)
-	.then(() => console.log('Connected to MongoDB...'))
+	.then(() => {
+		console.log('Connected to MongoDB...');
+		initDBDeploy();
+	})
 	.catch(err => console.error('Could not connect to MongoDB...', err));
 
 //Set Middlewares

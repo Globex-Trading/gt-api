@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
-const {sendAlerts}=require('../helper/sendAlerts');
+const {sendAlerts}=require('../helper/sendAlertFB');
 const { Alert } = require('../models/alert');
 const { User } = require('../models/user');
 const asyncHandler = require('express-async-handler');

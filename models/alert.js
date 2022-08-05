@@ -41,6 +41,13 @@ const alertSchema = new mongoose.Schema({
 	}
 });
 
+//Indexing
+alertSchema.index({
+	provider: 1,
+	symbol: 1,
+	trigger_price: 1
+});
+
 const alertModel = mongoose.model('Alert', alertSchema);
 
 exports.schema = alertSchema;

@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const pino = require('express-pino-logger');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const {initDBDeploy} = require('./db/deployDB');
 
@@ -7,6 +8,9 @@ const {initDBDeploy} = require('./db/deployDB');
 require('dotenv').config();
 
 const app = express();
+
+//Use Pino as the Logger
+app.use(pino());
 
 // Express Incoming data Body Parser
 app.use(express.json());

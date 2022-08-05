@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source="https://github.com/Globex-Trading/gt-api"
 WORKDIR /app
 
 #Install pm2 for Node Process Management
-RUN npm install pm2@latest -g
+RUN sudo npm install pm2@latest -g
 
 #First copy only the package.json (To take advantage of Docker cache layers)
 COPY package.json ./

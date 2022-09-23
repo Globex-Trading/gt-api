@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const app = express();
 
-//Use Pino as the Logger
+// Use Pino as the Logger
 app.use(pino());
 
 // Express Incoming data Body Parser
@@ -28,6 +28,7 @@ mongoose.connect(process.env.MONGODB_CONNECT_URI)
 app.use(errorHandler);
 
 //Set Routers
+app.use('/indicators', require('./routes/indicators'));
 app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));
 app.use('/users', require('./routes/userRoutes'));

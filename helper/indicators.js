@@ -5,8 +5,17 @@ const { promisify } = require('util');
 //Promisify Functions
 const sma_async = promisify(tulind.indicators.sma.indicator);
 const ema_async = promisify(tulind.indicators.ema.indicator);
+//MA
+//BBANDS
+//WMA
+
+
+//
 const rsi_async = promisify(tulind.indicators.rsi.indicator);
 const macd_async = promisify(tulind.indicators.macd.indicator);
+//ROC
+//STOCH
+//OBV
 
 const sma_inc = async (data) => {
 	// const d1 = data.map((d) => d.close);

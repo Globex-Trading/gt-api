@@ -1,9 +1,8 @@
 const express =	require('express');
-const {getCandleStickPastData, getLinePastData} = require('../controllers/tradingDataController');
+const {getCandleStickPastData} = require('../controllers/tradingDataController');
 const router = express.Router();
 
 router
-	.post('/candle-stick', getCandleStickPastData)
-	.post('/line', getLinePastData);
+	.post('/', getCandleStickPastData);
 
 module.exports = router;

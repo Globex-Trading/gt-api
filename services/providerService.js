@@ -44,5 +44,22 @@ const getProviderBySlugWithSymbols = async (providerSlug) => {
 	}
 };
 
+//find provider for specific symbol
+const findProvider = async (symbolID) => {
+
+	try{
+		const symbol = await Symbol.findById(symbolID);
+		const provider = await Provider.findById(symbol.provider);
+
+		return {provider: provider, symbol: symbol};
+
+	}catch (err) {
+		console.log(err);
+		return null;
+	}
+
+};
+
 exports.getAllProvidersWithSymbols = getAllProvidersWithSymbols;
 exports.getProviderBySlugWithSymbols = getProviderBySlugWithSymbols;
+exports.findProvider = findProvider;

@@ -1,11 +1,13 @@
 const {getCandleModelForCollection} = require('../models/candleStick');
+const {findProvider} = require('../services/providerService');
 
+const findPastData = async (symbolID, interval, start, end) => {
 
-const findCandleStickPastData = async (provider, symbol, interval, start, end) => {
-	const collectionName = `${provider}_${symbol}_${interval}`;
-	const Candle = getCandleModelForCollection(collectionName);
-	// find data from the database
-	try {
+	try{
+		const {provider, symbol} = await findProvider(symbolID);
+		const collectionName = `${provider.slug}_${symbol.providedName}_${interval}`;
+		const Candle = getCandleModelForCollection(collectionName);
+		// find data from the database
 		return await Candle.find({open_time: {$gte: start, $lte: end}});
 	}catch (err) {
 		console.log(err);
@@ -14,5 +16,5 @@ const findCandleStickPastData = async (provider, symbol, interval, start, end) =
 };
 
 module.exports = {
-	findCandleStickPastData
+	findPastData: findPastData
 };

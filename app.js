@@ -3,11 +3,14 @@ const mongoose = require('mongoose');
 const pino = require('express-pino-logger');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const {initDBDeploy} = require('./db/deployDB');
-
+const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
+
+//allow cors
+app.use(cors());
 
 //Use Pino as the Logger
 app.use(pino());

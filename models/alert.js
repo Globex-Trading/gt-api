@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./user');
 
 const alertSchema = new mongoose.Schema({
 	provider: {
@@ -38,6 +39,13 @@ const alertSchema = new mongoose.Schema({
 		enum: ['Crossing'],
 		default: 'Crossing'
 	}
+});
+
+//Indexing
+alertSchema.index({
+	provider: 1,
+	symbol: 1,
+	trigger_price: 1
 });
 
 const alertModel = mongoose.model('Alert', alertSchema);

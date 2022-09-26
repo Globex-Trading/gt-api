@@ -7,9 +7,9 @@ WORKDIR /app
 #First copy only the package.json (To take advantage of Docker cache layers)
 COPY package.json ./
 #Run NPM install
-RUN npm install
+RUN npm install --production
 # Copy the source files into the image
 COPY . .
 RUN cp .env.example .env
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+ENTRYPOINT [ "node", "server.js" ]

@@ -12,6 +12,18 @@ const seed = async () => {
 	} catch (error) {
 		console.log(error);
 	}
+
+	newProvider = new Provider({
+		name: 'Stock',
+		slug: 'stockbybm',
+		providedTimeFrames: [ '5m', '1h', '1d']
+	});
+	try {
+		await newProvider.save();
+		console.log('Stock Provider by Boris Marjanovic  saved.');
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 exports.seed =seed;

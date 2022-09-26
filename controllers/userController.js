@@ -9,13 +9,13 @@ const { User } = require('../models/user');
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
 	const { first_name, last_name, email, password, user_type, is_deleted } = req.body;
-
+	test1();
 	// Validation
 	if (!first_name || !last_name || !email || !password || !user_type) {
 		res.status(400);
 		throw new Error('Please include all fields');
 	}
-
+	
 	// Find if user already exists
 	const userExists = await User.findOne({ email });
 
@@ -95,6 +95,10 @@ const generateToken = (id,type) => {
 	return jwt.sign({ id , type }, process.env.JWT_SECRET, {
 		expiresIn: '15d',
 	});
+};
+
+const test1 = (id,type) => {
+	console.log('nikn');
 };
 
 module.exports = {

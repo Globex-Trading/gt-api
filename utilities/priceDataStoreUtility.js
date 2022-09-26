@@ -57,3 +57,5 @@ const getCSVToArray = async (provider, filePath, interval) => {
 };
 
 exports.getCSVToArray = getCSVToArray;
+exports.read5MinData=read5MinData;
+exports.read1HourData=read1HourData;

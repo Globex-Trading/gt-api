@@ -20,6 +20,17 @@ const addAlert = async (trigger_price, symbolID, userID, alert_type) => {
 	}
 };
 
+const getAlertsByUserID = async (userID) => {
+
+	try{
+		return await Alert.find({user: userID});
+	}catch (error) {
+		console.log(error);
+		return null;
+	}
+};
+
 module.exports = {
-	addAlert
+	addAlert,
+	getAlertsByUserID
 };

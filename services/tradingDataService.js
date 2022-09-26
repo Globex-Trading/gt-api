@@ -1,5 +1,6 @@
 const {getCandleModelForCollection} = require('../models/candleStick');
 
+
 const findCandleStickPastData = async (provider, symbol, interval, start, end) => {
 	const collectionName = `${provider}_${symbol}_${interval}`;
 	const Candle = getCandleModelForCollection(collectionName);

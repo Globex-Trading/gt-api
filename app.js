@@ -4,6 +4,7 @@ const pino = require('express-pino-logger');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const {initDBDeploy} = require('./db/deployDB');
 const cors = require('cors');
+const {configureHTTPS} = require('./config/httpsConfig');
 
 require('dotenv').config();
 
@@ -38,4 +39,8 @@ app.use('/price-data-store', require('./routes/priceDataStore'));
 app.use('/providers', require('./routes/provider'));
 app.use('/symbols', require('./routes/symbol'));
 
+//Enabling SSL
+const httpsServer = configureHTTPS(app);
+
 exports.app = app;
+exports.httpsApp = httpsServer;

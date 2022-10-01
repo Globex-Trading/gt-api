@@ -2,8 +2,14 @@
 const {
 	sma_inc,
 	ema_inc,
+	bbands_inc,
+	wma_inc,
+
 	rsi_inc,
 	macd_inc,
+	roc_inc,
+	stoch_inc,
+	obv_inc 
 } = require('../helper/indicators');
   
 const { Alert } = require('../models/alert');
@@ -21,11 +27,14 @@ var close = [4,5,6,6,6,5,5,5,6,4];
 var volume = [123,232,212,232,111,232,212,321,232,321];
 
 const getTAData =asyncHandler( async (req,res) => {
-	const klinedata = await sma_inc(close);
+	const klinedata = await obv_inc(close,volume);
+	// const bbannd= await bbands_inc(close);
+	// const wma = await wma_inc(close);
 	// klinedata = await ema_inc(klinedata);
 	// klinedata = markers_inc(klinedata);
 	// klinedata = await rsi_inc(klinedata);
 	// klinedata = await macd_inc(klinedata);
+	await console.log(klinedata)
 	res.status(200).json(klinedata);
 	
 });

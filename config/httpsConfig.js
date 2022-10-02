@@ -2,8 +2,12 @@ const fs = require('fs');
 const https = require('https');
 
 const configureHTTPS = (app) => {
-	const privateKey  = fs.readFileSync('./resources/certs/privkey.pem', 'utf8');
-	const certificate = fs.readFileSync('./resources/certs/fullchain.pem', 'utf8');
+	const certificateLoc = process.env.CERT_CERTIFICATE_LOCATION || '/certs/fullchain.pem';
+	const privateKeyLoc = process.env.CERT_PRIVATE_KEY_LOCATION || '/certs/privkey.pem';
+
+	const privateKey  = fs.readFileSync(privateKeyLoc, 'utf8');
+	const certificate = fs.readFileSync(certificateLoc, 'utf8');
+
 	return https.createServer({
 		key: privateKey,
 		cert: certificate

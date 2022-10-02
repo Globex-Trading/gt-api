@@ -1,6 +1,6 @@
 FROM node:lts-alpine3.16
-RUN addgroup app && adduser -S -G app app
-USER app
+#RUN addgroup app && adduser -S -G app app
+USER root
 LABEL org.opencontainers.image.source="https://github.com/Globex-Trading/gt-api"
 WORKDIR /app
 

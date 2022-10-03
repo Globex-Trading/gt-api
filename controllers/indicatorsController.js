@@ -9,37 +9,56 @@ const {
 	macd_inc,
 	roc_inc,
 	stoch_inc,
-	obv_inc 
+	obv_inc
 } = require('../helper/indicators');
-  
+const { getSymbolAndProviderByID } = require('../services/symbolService')
 const { User } = require('../models/user');
 const { getCandleModelForCollection } = require('../models/candleStick');
 const asyncHandler = require('express-async-handler');
 
 
 
-const getTAData =asyncHandler( async (req,res) => {
+const getTAData = asyncHandler(async (req, res) => {
+
+	// const {symbolId, timeframe, TI, startTime, endTime } = req.body;
+
+	// // Validation
+	// if (!symbolId || !timeframe || !TI || !startTime || !endTime) {
+	// 	res.status(400);
+	// 	throw new Error('Please include all fields');
+	// }
+
+	// data should be came from this format
+	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'stoch', 1659934799999, 1659944699999]
+
+	// get provider name and symbol using symbolid
+	const symbol = await getSymbolAndProviderByID(symbolId)
 	
-	//get recent 10 cs data
-	const dbdata= await getCandleModelForCollection('binance_BNBUSDT_15m').find().sort({ _id: -1 }).limit(10);
+	//get all c.stick data betwees time period
+	const dbdata = await getCandleModelForCollection(symbol.provider.slug +'_'+ symbol.name + '_'+ timeframe).find({
+		close_time: {
+			$gte: startTime,
+			$lte: endTime
+		}
+	})
 
 	//re-format data for TA
-	var dataobj=structuredData(dbdata);
+	var dataobj = structuredData(dbdata);
 	console.log(dataobj);
 
 	//get calculated data
-	const ema = await ema_inc(dataobj.close_price);
+	const ema = await calculate(dataobj,TI)
 
 
 	res.status(200).json(ema);
-	
+
 });
 
 
 
-function structuredData(datalist){
-	var dataobj={
-		_id:[],
+function structuredData(datalist) {
+	var dataobj = {
+		_id: [],
 		open_time: [],
 		close_time: [],
 		open_price: [],
@@ -47,7 +66,7 @@ function structuredData(datalist){
 		high_price: [],
 		low_price: [],
 		volume: [],
-		ta:[]
+		ta: []
 	};
 	datalist.forEach(element => {
 		dataobj.open_time.push(element.open_time);
@@ -58,14 +77,56 @@ function structuredData(datalist){
 		dataobj.high_price.push(element.high_price);
 		dataobj.low_price.push(element.low_price);
 		dataobj.volume.push(element.volume);
-		
+
 	});
 
 	return dataobj;
 }
 
 
+function calculate(datalist, indicator) {
+
+	switch (indicator.toLowerCase()) {
+		case 'sma':
+			return sma_inc(datalist)
+			
+		case 'ema':
+			return ema_inc(datalist)
+			
+
+		case 'bbands':
+			return bbands_inc(datalist)
+			
+		case 'wma':
+			return wma_inc(datalist)
+			
+		// ---------
+
+		case 'rsi':
+			return rsi_inc(datalist)
+			
+
+		case 'macd':
+			return macd_inc(datalist)
+			
+
+		case 'roc':
+			return roc_inc(datalist)
+			
+		case 'stoch':
+			return stoch_inc(datalist)
+			
+
+		case 'obv':
+			return obv_inc(datalist)
+		
+		default:
+			throw new Error('Invalid credentials');
+	}
+}
+
+
 module.exports = {
 	getTAData
-	
+
 };

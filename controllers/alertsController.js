@@ -6,6 +6,8 @@ const { Alert } = require('../models/alert');
 const { User } = require('../models/user');
 const asyncHandler = require('express-async-handler');
 
+
+//for trigger alerts
 const triggerAlerts =asyncHandler( async(req,res) => {
 	//An array of alert IDs
 	const alert_ids = req.body.alert_ids;
@@ -68,6 +70,7 @@ const getToken =asyncHandler( async (req,res) => {
 
 	
 	//save to db (configToken, userID)
+	// eslint-disable-next-line 
 	const updated=await User.findByIdAndUpdate(
 		{ _id: userID},
 		{'$push': { 'config_tokens': configToken } }

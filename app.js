@@ -10,6 +10,7 @@ require('dotenv').config();
 
 const app = express();
 
+
 //allow cors
 app.use(cors());
 
@@ -32,6 +33,7 @@ mongoose.connect(process.env.MONGODB_CONNECT_URI)
 app.use(errorHandler);
 
 //Set Routers
+app.use('/indicators', require('./routes/indicators'));
 app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));
 app.use('/users', require('./routes/userRoutes'));

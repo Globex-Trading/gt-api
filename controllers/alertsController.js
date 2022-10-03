@@ -1,3 +1,5 @@
+const {alertValidationSchema} = require('../validations/alert');
+const alertService = require('../services/alertService');
 /* eslint-disable no-mixed-spaces-and-tabs */
 const {sendAlerts}=require('../helper/sendAlertFB');
 const { Alert } = require('../models/alert');
@@ -77,10 +79,42 @@ const getToken =asyncHandler( async (req,res) => {
 	 
 });
 
+//add new alert to the system
+const addAlert = async (req,res) => {
+	const {error, value} = alertValidationSchema.validate(req.body);
 
+	if(error) {
+		return res.status(400).json({status: 'FAILED', data: error.details});
+	}
+	const newAlert = await alertService.addAlert(value.trigger_price, value.symbol, value.user, value.alert_type);
+	if(!newAlert) {
+		return res.status(500).json({status: 'FAILED', data: 'Alert could not be added'});
+	}
+	return res.status(200).json({status: 'SUCCESS', data: newAlert});
+};
+
+//get all the alerts that set by a user
+const getAlertsByUserID = async (req,res) => {
+	const userID = req.params.userID;
+	if(!userID) return res.status(401);
+
+	try {
+		const alerts = await alertService.getAlertsByUserID(userID);
+		if(!alerts) {
+			return res.status(500).json({status: 'FAILED', data: 'Alerts could not be retrieved'});
+		}
+		return res.status(200).json({status: 'SUCCESS', data: alerts});
+	}catch (error) {
+		console.log(error);
+		return res.status(500).json({status: 'FAILED', data: 'Alerts could not be retrieved'});
+	}
+
+};
 
 module.exports = {
 	triggerAlerts,
 	getToken,
+	addAlert,
+	getAlertsByUserID
 	
 };

@@ -7,6 +7,10 @@ let appServer;
 if (process.env.NODE_ENV === 'test') {
 	appServer = app.listen(0, () => { });
 } else if (process.env.NODE_ENV === 'production'){
+	app.listen(port, () => {
+		console.log(`Running on http://localhost:${port}`);
+	});
+
 	appServer = httpsApp.listen(httpsPort, () => {
 		console.log(`Running on https://localhost:${httpsPort}`);
 	});

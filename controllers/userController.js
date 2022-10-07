@@ -9,7 +9,7 @@ const { User } = require('../models/user');
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
 	const { first_name, last_name, email, password, user_type, is_deleted } = req.body;
-	test1();
+
 	// Validation
 	if (!first_name || !last_name || !email || !password || !user_type) {
 		res.status(400);
@@ -41,11 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	if (user) {
 		res.status(201).json({
-			_id: user._id,
-			first_name: user.first_name,
-			last_name: user.last_name,
-			email: user.email,
-			token: generateToken(user._id,user.user_type),
+			msg:'Registration Successful'
 		});
 	} else {
 		res.status(400);
@@ -70,12 +66,41 @@ const loginUser = asyncHandler(async (req, res) => {
 			last_name: user.last_name,
 			email: user.email,
 			token: generateToken(user._id,user.user_type),
+			refresh_token: generateRefreshToken(user._id,user.user_type)
 		});
 	} else {
 		res.status(401);
 		throw new Error('Invalid credentials');
 	}
 });
+
+// @desc    renew acces token using refresh token
+// @route   /users/renewToken
+// @access  Public
+const renewToken = asyncHandler(async (req, res) => {
+	const { refresh_token } = req.body;
+
+	if (!refresh_token) {
+		res.status(400);
+		throw new Error('Please include all fields');
+	}
+
+	const decoded = jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET);
+	
+	if(decoded){
+		res.status(200).json({
+			token: generateToken(decoded.id,decoded.type),
+			refresh_token: generateRefreshToken(decoded.id,decoded.type)
+		});
+	}
+	else{
+		res.status(400);
+		throw new Error('invalid token');
+	}
+	
+	
+});
+
 
 // @desc    Get current user
 // @route   /users/me
@@ -93,16 +118,22 @@ const getMe = asyncHandler(async (req, res) => {
 // Generate token
 const generateToken = (id,type) => {
 	return jwt.sign({ id , type }, process.env.JWT_SECRET, {
-		expiresIn: '15d',
+		expiresIn: '300s',
 	});
 };
 
-const test1 = (id,type) => {
-	console.log('nikn');
+// Generate token
+const generateRefreshToken = (id,type) => {
+	return jwt.sign({ id , type }, process.env.JWT_REFRESH_SECRET, {
+		expiresIn: '1d',
+	});
 };
+
+
 
 module.exports = {
 	registerUser,
 	loginUser,
 	getMe,
+	renewToken
 };

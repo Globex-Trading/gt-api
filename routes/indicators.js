@@ -4,7 +4,7 @@ const router = express.Router();
 const {getTAData} = require('../controllers/indicatorsController');
 
 router
-	.get('/', getTAData);
+	.post('/', getTAData);
 	
 	
 

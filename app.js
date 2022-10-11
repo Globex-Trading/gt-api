@@ -33,6 +33,7 @@ mongoose.connect(process.env.MONGODB_CONNECT_URI)
 app.use(errorHandler);
 
 //Set Routers
+app.use('/watchlist', require('./routes/watchlist'));
 app.use('/indicators', require('./routes/indicators'));
 app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));

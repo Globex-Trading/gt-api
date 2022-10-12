@@ -15,6 +15,7 @@ const { getSymbolAndProviderByID } = require('../services/symbolService')
 const { User } = require('../models/user');
 const { getCandleModelForCollection } = require('../models/candleStick');
 const asyncHandler = require('express-async-handler');
+const indicatorService = require('../services/indicatorService');
 
 
 
@@ -125,8 +126,36 @@ function calculate(datalist, indicator) {
 	}
 }
 
+const getAllIndicators = async (req, res) => {
+	console.log('---------------------------\n', req.body);
+	try {
+		const indicators = await indicatorService.getAllIndicators();
+		indicators ?
+			res.status(200).json({status: 'SUCCESS', data: indicators}) :
+			res.status(500).json({status: 'FAILED', data: null});
+	}catch (error) {
+		console.log(error);
+		res.status(500).json({status: 'FAILED', data: null});
+	}
+}
+
+const getIndicatorByID = async (req, res) => {
+	if (!req.params.id) {
+		return res.status(400).json({status: 'FAILED', data: 'id is required'});
+	}
+	try {
+		const indicator = await indicatorService.getIndicatorByID(req.params.id);
+		indicator ?
+			res.status(200).json({status: 'SUCCESS', data: indicator}) :
+			res.status(500).json({status: 'FAILED', data: null});
+	}catch (error) {
+		console.log(error);
+		res.status(500).json({status: 'FAILED', data: null});
+	}
+}
 
 module.exports = {
-	getTAData
-
+	getTAData,
+	getAllIndicators,
+	getIndicatorByID
 };

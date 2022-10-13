@@ -48,10 +48,11 @@ const getTAData = asyncHandler(async (req, res) => {
 
 
 	//get calculated data
-	const ema = await calculate(dbdata,TI)
+	const output = await calculate(dbdata,TI)
 
-
-	res.status(200).json(ema);
+	const newformat= {data:output,TI:TI }
+	// console.log(await newformat)
+	res.status(200).json(newformat);
 
 });
 

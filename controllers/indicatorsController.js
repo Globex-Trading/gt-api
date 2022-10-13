@@ -9,7 +9,11 @@ const {
 	macd_inc,
 	roc_inc,
 	stoch_inc,
-	obv_inc
+	obv_inc,
+
+	md_inc,
+	rocr_inc,
+	vwma_inc
 } = require('../helper/indicators');
 const { getSymbolAndProviderByID } = require('../services/symbolService')
 const { User } = require('../models/user');
@@ -29,7 +33,7 @@ const getTAData = asyncHandler(async (req, res) => {
 	// }
 
 	// data should be came from this format
-	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'stoch', 1659934799999, 1659944699999]
+	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
 
 	// get provider name and symbol using symbolid
 	const symbol = await getSymbolAndProviderByID(symbolId)
@@ -42,12 +46,9 @@ const getTAData = asyncHandler(async (req, res) => {
 		}
 	})
 
-	//re-format data for TA
-	var dataobj = structuredData(dbdata);
-	console.log(dataobj);
 
 	//get calculated data
-	const ema = await calculate(dataobj,TI)
+	const ema = await calculate(dbdata,TI)
 
 
 	res.status(200).json(ema);
@@ -56,32 +57,32 @@ const getTAData = asyncHandler(async (req, res) => {
 
 
 
-function structuredData(datalist) {
-	var dataobj = {
-		_id: [],
-		open_time: [],
-		close_time: [],
-		open_price: [],
-		close_price: [],
-		high_price: [],
-		low_price: [],
-		volume: [],
-		ta: []
-	};
-	datalist.forEach(element => {
-		dataobj.open_time.push(element.open_time);
-		dataobj.close_time.push(element.close_time);
-		dataobj._id.push(element._id);
-		dataobj.open_price.push(element.open_price);
-		dataobj.close_price.push(element.close_price);
-		dataobj.high_price.push(element.high_price);
-		dataobj.low_price.push(element.low_price);
-		dataobj.volume.push(element.volume);
+// function structuredData(datalist) {
+// 	var dataobj = {
+// 		_id: [],
+// 		open_time: [],
+// 		close_time: [],
+// 		open_price: [],
+// 		close_price: [],
+// 		high_price: [],
+// 		low_price: [],
+// 		volume: [],
+// 		ta: []
+// 	};
+// 	datalist.forEach(element => {
+// 		dataobj.open_time.push(element.open_time);
+// 		dataobj.close_time.push(element.close_time);
+// 		dataobj._id.push(element._id);
+// 		dataobj.open_price.push(element.open_price);
+// 		dataobj.close_price.push(element.close_price);
+// 		dataobj.high_price.push(element.high_price);
+// 		dataobj.low_price.push(element.low_price);
+// 		dataobj.volume.push(element.volume);
 
-	});
+// 	});
 
-	return dataobj;
-}
+// 	return dataobj;
+// }
 
 
 function calculate(datalist, indicator) {
@@ -119,7 +120,18 @@ function calculate(datalist, indicator) {
 
 		case 'obv':
 			return obv_inc(datalist)
-		
+
+		//------------
+
+		case 'md':
+			return md_inc(datalist)
+
+		case 'rocr':
+			return rocr_inc(datalist)
+
+		case 'vwma':
+			return vwma_inc(datalist)
+			
 		default:
 			throw new Error('Invalid credentials');
 	}

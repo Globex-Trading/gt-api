@@ -25,16 +25,16 @@ const indicatorService = require('../services/indicatorService');
 
 const getTAData = asyncHandler(async (req, res) => {
 
-	// const {symbolId, timeframe, TI, startTime, endTime } = req.body;
+	const {symbolId, timeframe, TI, startTime, endTime } = req.body;
 
-	// // Validation
-	// if (!symbolId || !timeframe || !TI || !startTime || !endTime) {
-	// 	res.status(400);
-	// 	throw new Error('Please include all fields');
-	// }
+	// Validation
+	if (!symbolId || !timeframe || !TI || !startTime || !endTime) {
+		res.status(400);
+		throw new Error('Please include all fields');
+	}
 
 	// data should be came from this format
-	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
+// 	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
 
 	// get provider name and symbol using symbolid
 	const symbol = await getSymbolAndProviderByID(symbolId)

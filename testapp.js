@@ -30,11 +30,13 @@ app.use(express.urlencoded({ extended: true }));
 
 //Set Routers
 app.use('/watchlist', require('./routes/watchlist'));
+// 
 app.use('/indicators', require('./routes/indicators'));
+
 // app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));
 app.use('/users', require('./routes/userRoutes'));
-app.use('/price-data-store', require('./routes/priceDataStore'));
+// app.use('/price-data-store', require('./routes/priceDataStore'));
 app.use('/providers', require('./routes/provider'));
 app.use('/symbols', require('./routes/symbol'));
 

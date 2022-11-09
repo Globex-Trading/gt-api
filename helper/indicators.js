@@ -9,7 +9,7 @@ const { promisify } = require('util');
 const sma_async = promisify(tulind.indicators.sma.indicator);
 //EMA
 const ema_async = promisify(tulind.indicators.ema.indicator);
-//MA
+
 //BBANDS
 const bbands_async = promisify(tulind.indicators.bbands.indicator);
 //WMA

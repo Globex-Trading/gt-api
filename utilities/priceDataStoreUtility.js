@@ -18,7 +18,7 @@ const read1HourData = (record) => {
 	const openTime = moment.utc(record[0] + 'T' + record[1], moment.ISO_8601).unix();
 	return {
 		open_time: openTime,
-		close_time: openTime + 3600- 1,
+		close_time: openTime + 3600 - 1,
 		open_price: record[2],
 		close_price: record[5],
 		high_price: record[3],
@@ -29,7 +29,7 @@ const read1HourData = (record) => {
 
 const read5MinData = (record) => {
 	return {
-		open_time: record[0]+record[1],
+		open_time: record[0] + record[1],
 		close_time: 'c',
 		open_price: record[2],
 		close_price: record[5],
@@ -40,16 +40,16 @@ const read5MinData = (record) => {
 };
 
 const getCSVToArray = async (provider, filePath, interval) => {
-	if(provider === 'default') {
+	if (provider === 'default') {
 		switch (interval) {
-		case '5m':
-			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read5MinData);
-		case '1h':
-			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1HourData);
-		case '1D':
-			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1DayData);
-		default:
-			return [];
+			case '5m':
+				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read5MinData);
+			case '1h':
+				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1HourData);
+			case '1D':
+				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1DayData);
+			default:
+				return [];
 		}
 	} else {
 		return [];
@@ -57,5 +57,6 @@ const getCSVToArray = async (provider, filePath, interval) => {
 };
 
 exports.getCSVToArray = getCSVToArray;
-exports.read5MinData=read5MinData;
-exports.read1HourData=read1HourData;
+exports.read5MinData = read5MinData;
+exports.read1HourData = read1HourData;
+exports.read1DayData = read1DayData;

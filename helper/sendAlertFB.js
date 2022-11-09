@@ -4,16 +4,16 @@ var admin = require('firebase-admin');
 //get the json file from  project settings->service account->generate new private key
 
 // TODO: Fix Later. Commented due to not having a serviceAccount
-/*var serviceAccount = require('path/to/serviceAccountKey.json');
+var serviceAccount = require('../gt-push-notifications-firebase-adminsdk-2igm1-aee975ec27.json');
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount)
-});*/
+});
 
 
 /* eslint-disable no-unused-vars */
-const sendAlerts = (configToken,msg) => {
-	console.log(configToken,msg);
+const sendAlerts = (configToken, msg) => {
+	console.log(configToken, msg);
 
 	var payload = {
 		notification: {
@@ -21,15 +21,15 @@ const sendAlerts = (configToken,msg) => {
 			body: msg
 		}
 	};
-    
+
 	admin.messaging().sendToDevice(configToken, payload)
-		.then(function(response) {
+		.then(function (response) {
 			console.log('Successfully sent message:', response);
 		})
-		.catch(function(error) {
+		.catch(function (error) {
 			console.log('Error sending message:', error);
 		});
-    
+
 };
 
 module.exports = { sendAlerts };

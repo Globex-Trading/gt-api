@@ -39,6 +39,7 @@ const triggerAlerts = asyncHandler(async (req, res) => {
 	alertObjects.forEach(async function (itm) {
 
 		//get alert from each object 
+		const title = itm.symbol;
 		const msg = itm.trigger_price;
 
 
@@ -47,7 +48,23 @@ const triggerAlerts = asyncHandler(async (req, res) => {
 		const configTokens = user.config_tokens;
 
 
-		configTokens.map((token) => { sendAlerts(token, msg); });
+		configTokens.map((token) => {
+			sendAlerts(token, title, msg);
+
+
+		});
+
+		user.notification_items.push({
+			title: title,
+			data: msg
+
+		});
+
+		user.save();
+
+
+
+
 	});
 
 
@@ -113,47 +130,28 @@ const getAlertsByUserID = async (req, res) => {
 
 const sendTest = asyncHandler(async (req, res) => {
 	//An array of alert IDs
-	const token = req.body.token;
+	const { token, userid } = req.body;
 
-	if (!token) {
+	if (!token || !userid) {
 		res.status(200);
-		throw new Error('alertIDs not found');
+		throw new Error('data not found');
 	}
 
 
-	// res.status(201).json(alert_ids);
-
-
-	//get alert objects from alertId
-	// const alertObjects = await Alert.find().where('_id').in(alert_ids).exec();
-	// const alertObjects=[
-	// 	{provider:'binance',
-	// 		symbol:'btc',
-	// 		trigger_price:'10000',
-	// 		user:'62e6a546ee10619bd092086f'
-	// 	},
-	// 	{provider:'binance',
-	// 		symbol:'eth',
-	// 		trigger_price:'2000',
-	// 		user:'62e6a7be2a6393df82fd63a8'},
-	// ];
-
-
-	// alertObjects.forEach(async function(itm){
-
-	// 	//get alert from each object 
-	// 	const msg=itm.trigger_price;
 
 
 	// 	//get config token list from db using user id
-	// 	const user = await User.findById(itm.user).exec();
-	// 	const configTokens=user.config_tokens;
-
-
-	// 	configTokens.map((token)=>{sendAlerts(token,msg);});
-	// });
+	const user = await User.findById(userid).exec();
+	
 
 	sendAlerts(token, ' msg test');
+	user.notification_items.push({
+		title: 'tt',
+		data: 'msg'
+
+	});
+
+	user.save();
 
 });
 

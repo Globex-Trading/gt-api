@@ -2,9 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const pino = require('express-pino-logger');
 const { errorHandler } = require('./middleware/errorMiddleware');
-const {initDBDeploy} = require('./db/deployDB');
+const { initDBDeploy } = require('./db/deployDB');
 const cors = require('cors');
-const {configureHTTPS} = require('./config/httpsConfig');
+const { configureHTTPS } = require('./config/httpsConfig');
 
 require('dotenv').config();
 
@@ -41,6 +41,7 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/price-data-store', require('./routes/priceDataStore'));
 app.use('/providers', require('./routes/provider'));
 app.use('/symbols', require('./routes/symbol'));
+app.use('/notification', require('./routes/notification'));
 
 //Enabling SSL
 const httpsServer = configureHTTPS(app);

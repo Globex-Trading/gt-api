@@ -12,12 +12,12 @@ admin.initializeApp({
 
 
 /* eslint-disable no-unused-vars */
-const sendAlerts = (configToken, msg) => {
+const sendAlerts = (configToken, title, msg) => {
 	console.log(configToken, msg);
 
 	var payload = {
 		notification: {
-			title: 'Test',
+			title: title,
 			body: msg
 		}
 	};

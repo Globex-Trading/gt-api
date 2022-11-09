@@ -1,14 +1,14 @@
-const {alertValidationSchema} = require('../validations/alert');
+const { alertValidationSchema } = require('../validations/alert');
 const alertService = require('../services/alertService');
 /* eslint-disable no-mixed-spaces-and-tabs */
-const {sendAlerts}=require('../helper/sendAlertFB');
+const { sendAlerts } = require('../helper/sendAlertFB');
 const { Alert } = require('../models/alert');
 const { User } = require('../models/user');
 const asyncHandler = require('express-async-handler');
 
 
 //for trigger alerts
-const triggerAlerts =asyncHandler( async(req,res) => {
+const triggerAlerts = asyncHandler(async (req, res) => {
 	//An array of alert IDs
 	const alert_ids = req.body.alert_ids;
 
@@ -36,18 +36,18 @@ const triggerAlerts =asyncHandler( async(req,res) => {
 	// ];
 
 
-	alertObjects.forEach(async function(itm){
-		
+	alertObjects.forEach(async function (itm) {
+
 		//get alert from each object 
-		const msg=itm.trigger_price;
+		const msg = itm.trigger_price;
 
 
 		//get config token list from db using user id
 		const user = await User.findById(itm.user).exec();
-		const configTokens=user.config_tokens;
+		const configTokens = user.config_tokens;
 
-	
-		configTokens.map((token)=>{sendAlerts(token,msg);});
+
+		configTokens.map((token) => { sendAlerts(token, msg); });
 	});
 
 
@@ -55,10 +55,10 @@ const triggerAlerts =asyncHandler( async(req,res) => {
 });
 
 
-const getToken =asyncHandler( async (req,res) => {
+const getToken = asyncHandler(async (req, res) => {
 	//get config token and user ID from react app
 	const { configToken, userID } = req.body;
-	
+
 	if (!configToken || !userID) {
 		res.status(401);
 		throw new Error('configToken or userID not found');
@@ -68,53 +68,100 @@ const getToken =asyncHandler( async (req,res) => {
 		userID: userID
 	});
 
-	
+
 	//save to db (configToken, userID)
 	// eslint-disable-next-line 
-	const updated=await User.findByIdAndUpdate(
-		{ _id: userID},
-		{'$push': { 'config_tokens': configToken } }
-	  ).exec(console.log('user not found'));
+	const updated = await User.findByIdAndUpdate(
+		{ _id: userID },
+		{ '$push': { 'config_tokens': configToken } }
+	).exec(console.log('user not found'));
 
-	 
+
 });
 
 //add new alert to the system
-const addAlert = async (req,res) => {
-	const {error, value} = alertValidationSchema.validate(req.body);
+const addAlert = async (req, res) => {
+	const { error, value } = alertValidationSchema.validate(req.body);
 
-	if(error) {
-		return res.status(400).json({status: 'FAILED', data: error.details});
+	if (error) {
+		return res.status(400).json({ status: 'FAILED', data: error.details });
 	}
 	const newAlert = await alertService.addAlert(value.trigger_price, value.symbol, value.user, value.alert_type);
-	if(!newAlert) {
-		return res.status(500).json({status: 'FAILED', data: 'Alert could not be added'});
+	if (!newAlert) {
+		return res.status(500).json({ status: 'FAILED', data: 'Alert could not be added' });
 	}
-	return res.status(200).json({status: 'SUCCESS', data: newAlert});
+	return res.status(200).json({ status: 'SUCCESS', data: newAlert });
 };
 
 //get all the alerts that set by a user
-const getAlertsByUserID = async (req,res) => {
+const getAlertsByUserID = async (req, res) => {
 	const userID = req.params.userID;
-	if(!userID) return res.status(401);
+	if (!userID) return res.status(401);
 
 	try {
 		const alerts = await alertService.getAlertsByUserID(userID);
-		if(!alerts) {
-			return res.status(500).json({status: 'FAILED', data: 'Alerts could not be retrieved'});
+		if (!alerts) {
+			return res.status(500).json({ status: 'FAILED', data: 'Alerts could not be retrieved' });
 		}
-		return res.status(200).json({status: 'SUCCESS', data: alerts});
-	}catch (error) {
+		return res.status(200).json({ status: 'SUCCESS', data: alerts });
+	} catch (error) {
 		console.log(error);
-		return res.status(500).json({status: 'FAILED', data: 'Alerts could not be retrieved'});
+		return res.status(500).json({ status: 'FAILED', data: 'Alerts could not be retrieved' });
 	}
 
 };
+
+const sendTest = asyncHandler(async (req, res) => {
+	//An array of alert IDs
+	const token = req.body.token;
+
+	if (!token) {
+		res.status(200);
+		throw new Error('alertIDs not found');
+	}
+
+
+	// res.status(201).json(alert_ids);
+
+
+	//get alert objects from alertId
+	// const alertObjects = await Alert.find().where('_id').in(alert_ids).exec();
+	// const alertObjects=[
+	// 	{provider:'binance',
+	// 		symbol:'btc',
+	// 		trigger_price:'10000',
+	// 		user:'62e6a546ee10619bd092086f'
+	// 	},
+	// 	{provider:'binance',
+	// 		symbol:'eth',
+	// 		trigger_price:'2000',
+	// 		user:'62e6a7be2a6393df82fd63a8'},
+	// ];
+
+
+	// alertObjects.forEach(async function(itm){
+
+	// 	//get alert from each object 
+	// 	const msg=itm.trigger_price;
+
+
+	// 	//get config token list from db using user id
+	// 	const user = await User.findById(itm.user).exec();
+	// 	const configTokens=user.config_tokens;
+
+
+	// 	configTokens.map((token)=>{sendAlerts(token,msg);});
+	// });
+
+	sendAlerts(token, ' msg test');
+
+});
 
 module.exports = {
 	triggerAlerts,
 	getToken,
 	addAlert,
-	getAlertsByUserID
-	
+	getAlertsByUserID,
+	sendTest
+
 };

@@ -111,6 +111,7 @@ const getMe = asyncHandler(async (req, res) => {
 		email: req.user.email,
 		first_name: req.user.first_name,
 		last_name: req.user.last_name,
+		user_type: req.user.user_type
 	};
 	res.status(200).json(user);
 });

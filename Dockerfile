@@ -1,8 +1,12 @@
-FROM node:lts-alpine3.16
+# FROM node:lts-alpine3.16
+FROM node:16-alpine3.16
+RUN apk add g++ make py3-pip
+
 #RUN addgroup app && adduser -S -G app app
 USER root
 LABEL org.opencontainers.image.source="https://github.com/Globex-Trading/gt-api"
 WORKDIR /app
+
 
 #First copy only the package.json (To take advantage of Docker cache layers)
 COPY package.json ./

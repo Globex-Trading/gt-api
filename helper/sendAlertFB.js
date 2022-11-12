@@ -4,11 +4,11 @@ var admin = require('firebase-admin');
 //get the json file from  project settings->service account->generate new private key
 
 // TODO: Fix Later. Commented due to not having a serviceAccount
-var serviceAccount = require('../gt-push-notifications-firebase-adminsdk-2igm1-aee975ec27.json');
+// var serviceAccount = require('../gt-push-notifications-firebase-adminsdk-2igm1-aee975ec27.json');
 
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount)
-});
+// admin.initializeApp({
+// 	credential: admin.credential.cert(serviceAccount)
+// });
 
 
 /* eslint-disable no-unused-vars */

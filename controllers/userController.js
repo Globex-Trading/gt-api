@@ -15,7 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error('Please include all fields');
 	}
-	
+
 	// Find if user already exists
 	const userExists = await User.findOne({ email });
 
@@ -29,7 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
 	const hashedPassword = await bcrypt.hash(password, salt);
 
 	// // Create user
-	const user = await User.create({
+	await User.create({
 		first_name,
 		last_name,
 		email,
@@ -39,15 +39,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
 	});
 
-	if (user) {
-		res.status(201).json({
-			msg:'Registration Successful'
-		});
-	} else {
-		res.status(400);
-		// eslint-disable-next-line no-undef
-		throw new error('Invalid user data');
-	}
+
+	res.status(201).json({
+		msg: 'Registration Successful'
+	});
+
+	// } else {
+	// 	res.status(400);
+	// 	// eslint-disable-next-line no-undef
+	// 	throw new error('Invalid user data');
+	// }
 });
 
 // @desc    Login a user
@@ -65,8 +66,8 @@ const loginUser = asyncHandler(async (req, res) => {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			email: user.email,
-			token: generateToken(user._id,user.user_type),
-			refresh_token: generateRefreshToken(user._id,user.user_type)
+			token: generateToken(user._id, user.user_type),
+			refresh_token: generateRefreshToken(user._id, user.user_type)
 		});
 	} else {
 		res.status(401);
@@ -86,19 +87,15 @@ const renewToken = asyncHandler(async (req, res) => {
 	}
 
 	const decoded = jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET);
-	
-	if(decoded){
-		res.status(200).json({
-			token: generateToken(decoded.id,decoded.type),
-			refresh_token: generateRefreshToken(decoded.id,decoded.type)
-		});
-	}
-	else{
-		res.status(400);
-		throw new Error('invalid token');
-	}
-	
-	
+
+
+	res.status(200).json({
+		token: generateToken(decoded.id, decoded.type),
+		refresh_token: generateRefreshToken(decoded.id, decoded.type)
+	});
+
+
+
 });
 
 
@@ -117,15 +114,15 @@ const getMe = asyncHandler(async (req, res) => {
 });
 
 // Generate token
-const generateToken = (id,type) => {
-	return jwt.sign({ id , type }, process.env.JWT_SECRET, {
+const generateToken = (id, type) => {
+	return jwt.sign({ id, type }, process.env.JWT_SECRET, {
 		expiresIn: '300s',
 	});
 };
 
 // Generate token
-const generateRefreshToken = (id,type) => {
-	return jwt.sign({ id , type }, process.env.JWT_REFRESH_SECRET, {
+const generateRefreshToken = (id, type) => {
+	return jwt.sign({ id, type }, process.env.JWT_REFRESH_SECRET, {
 		expiresIn: '1d',
 	});
 };
@@ -136,5 +133,7 @@ module.exports = {
 	registerUser,
 	loginUser,
 	getMe,
-	renewToken
+	renewToken,
+	generateToken,
+	generateRefreshToken
 };

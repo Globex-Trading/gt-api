@@ -25,22 +25,22 @@ const indicatorService = require('../services/indicatorService');
 
 const getTAData = asyncHandler(async (req, res) => {
 
-	// const {symbolId, timeframe, TI, startTime, endTime } = req.body;
+	const { symbolId, timeframe, TI, startTime, endTime } = req.body;
 
-	// // Validation
-	// if (!symbolId || !timeframe || !TI || !startTime || !endTime) {
-	// 	res.status(400);
-	// 	throw new Error('Please include all fields');
-	// }
+	// Validation
+	if (!symbolId || !timeframe || !TI || !startTime || !endTime) {
+		res.status(400);
+		throw new Error('Please include all fields');
+	}
 
 	// data should be came from this format
-	const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
+	// const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
 
 	// get provider name and symbol using symbolid
 	const symbol = await getSymbolAndProviderByID(symbolId)
-	
+
 	//get all c.stick data betwees time period
-	const dbdata = await getCandleModelForCollection(symbol.provider.slug +'_'+ symbol.name + '_'+ timeframe).find({
+	const dbdata = await getCandleModelForCollection(symbol.provider.slug + '_' + symbol.name + '_' + timeframe).find({
 		close_time: {
 			$gte: startTime,
 			$lte: endTime
@@ -49,9 +49,10 @@ const getTAData = asyncHandler(async (req, res) => {
 
 
 	//get calculated data
-	const output = await calculate(dbdata,TI)
+	// console.log(dbdata)
+	const output = await calculate(dbdata, TI)
 
-	const newformat= {data:output,TI:TI }
+	const newformat = { data: output, TI: TI }
 	// console.log(await newformat)
 	res.status(200).json(newformat);
 
@@ -92,33 +93,33 @@ function calculate(datalist, indicator) {
 	switch (indicator.toLowerCase()) {
 		case 'sma':
 			return sma_inc(datalist)
-			
+
 		case 'ema':
 			return ema_inc(datalist)
-			
+
 
 		case 'bbands':
 			return bbands_inc(datalist)
-			
+
 		case 'wma':
 			return wma_inc(datalist)
-			
+
 		// ---------
 
 		case 'rsi':
 			return rsi_inc(datalist)
-			
+
 
 		case 'macd':
 			return macd_inc(datalist)
-			
+
 
 		case 'roc':
 			return roc_inc(datalist)
-			
+
 		case 'stoch':
 			return stoch_inc(datalist)
-			
+
 
 		case 'obv':
 			return obv_inc(datalist)
@@ -133,7 +134,7 @@ function calculate(datalist, indicator) {
 
 		case 'vwma':
 			return vwma_inc(datalist)
-			
+
 		default:
 			throw new Error('Invalid credentials');
 	}
@@ -144,26 +145,26 @@ const getAllIndicators = async (req, res) => {
 	try {
 		const indicators = await indicatorService.getAllIndicators();
 		indicators ?
-			res.status(200).json({status: 'SUCCESS', data: indicators}) :
-			res.status(500).json({status: 'FAILED', data: null});
-	}catch (error) {
+			res.status(200).json({ status: 'SUCCESS', data: indicators }) :
+			res.status(500).json({ status: 'FAILED', data: null });
+	} catch (error) {
 		console.log(error);
-		res.status(500).json({status: 'FAILED', data: null});
+		res.status(500).json({ status: 'FAILED', data: null });
 	}
 }
 
 const getIndicatorByID = async (req, res) => {
 	if (!req.params.id) {
-		return res.status(400).json({status: 'FAILED', data: 'id is required'});
+		return res.status(400).json({ status: 'FAILED', data: 'id is required' });
 	}
 	try {
 		const indicator = await indicatorService.getIndicatorByID(req.params.id);
 		indicator ?
-			res.status(200).json({status: 'SUCCESS', data: indicator}) :
-			res.status(500).json({status: 'FAILED', data: null});
-	}catch (error) {
+			res.status(200).json({ status: 'SUCCESS', data: indicator }) :
+			res.status(500).json({ status: 'FAILED', data: null });
+	} catch (error) {
 		console.log(error);
-		res.status(500).json({status: 'FAILED', data: null});
+		res.status(500).json({ status: 'FAILED', data: null });
 	}
 }
 

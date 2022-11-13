@@ -13,11 +13,7 @@ const getAllProvidersWithSymbols = async (req,res) => {
 
 const getProviderBySlugWithSymbols = async (req,res) => {
 	const providerSlug = req.params.provider_slug;
-	if (!providerSlug) return res.json({
-		code: 201,
-		status: 'MISSING_INPUTS',
-		message: 'Provider Slug is missing.',
-	});
+	
 
 	const provider = await providerService.getProviderBySlugWithSymbols(providerSlug);
 	if (!provider) return res.json({

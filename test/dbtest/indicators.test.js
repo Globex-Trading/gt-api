@@ -1,7 +1,7 @@
 /* eslint-disable */
 const mongoose = require('mongoose');
 require('dotenv').config();
-const url = process.env.TEST_MONGODB_CONNECT_URI;
+const url = process.env.TESTDB_MONGODB_CONNECT_URI;
 mongoose.connect(url);
 
 const { Indicator } = require('../../models/indicator');

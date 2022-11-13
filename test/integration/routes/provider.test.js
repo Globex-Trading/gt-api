@@ -52,27 +52,36 @@ describe("/provider testing", () => {
 
             expect(res.status).toBe(200);
         });
+
+        it("invalid slug", async () => {
+
+            const res = await request(server).get("/providers/slug/jh")
+
+
+            expect(res.status).toBe(200);
+        });
     })
 
-    // describe(" provider/for-fetcher/slug", () => {
+    // describe("test provider/for-fetcher/slug", () => {
 
-    //     it("getsymbol by id pass 2", async () => {
+    //     // it("getSymbolsAndTimeframesForFetcherBySlug  pass ", async () => {
 
-    //         const res = await request(server).get("/providers/for-fetcher/slug/")
-
-
-    //         expect(res.status).toBe(200);
-    //     });
+    //     //     const res = await request(server)
+    //     //     .get("/providers/for-fetcher/slug/62f09406d5471fb5c7")
 
 
-    //     it("getsymbol by id fail 1", async () => {
-
-    //         const res = await request(server)
-    //             .get("/providers/for-fetcher/slug/jshs")
+    //     //     expect(res.status).toBe(401);
+    //     // });
 
 
-    //         expect(res.status).toBe(400);
-    //     });
+    //     // it("getsymbol by id fail 1", async () => {
+
+    //     //     const res = await request(server)
+    //     //         .get("/providers/for-fetcher/slug/jshs")
+
+
+    //     //     expect(res.status).toBe(401);
+    //     // });
     // })
 
 

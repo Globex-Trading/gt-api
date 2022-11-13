@@ -172,6 +172,63 @@ describe("/servicer", () => {
     });
 
 
+    describe("/remove item", () => {
+
+        it("remove item pass", async () => {
+            // await agent.post("/serviceProvider/sig").send({
+            //   username: "Teflon International",
+            // });
+            const res = await request(server)
+                .post("/watchlist/removeitem")
+                .set('authorization', 'Bearer '.concat(token))
+                .send({
+                    symbolId: "62f0960d419406d5471fb5c7",
+                    userId: userid,
+
+                });
+            // .expect(200);
+
+            expect(res.status).toBe(200);
+        });
+        it("remove item fail1", async () => {
+            // await agent.post("/serviceProvider/sig").send({
+            //   username: "Teflon International",
+            // });
+            const res = await request(server)
+                .post("/watchlist/removeitem")
+                .set('authorization', 'Bearer '.concat(token))
+                .send({
+
+                    userId: userid,
+                    
+
+                });
+            // .expect(200);
+
+            expect(res.status).toBe(400);
+        });
+        it("remove item fail1", async () => {
+            // await agent.post("/serviceProvider/sig").send({
+            //   username: "Teflon International",
+            // });
+            const res = await request(server)
+                .post("/watchlist/removeitem")
+                .set('authorization', 'Bearer '.concat(token))
+                .send({
+                    symbolId: "62f0960d419406d5471fb5c7",
+                    userId: "hhhshas",
+                    
+
+                });
+            // .expect(200);
+
+            expect(res.status).toBe(401);
+        });
+
+     
+    })
+
+
 
 
 });

@@ -69,6 +69,44 @@ describe("/indicator testing", () => {
     })
 
 
+    //get indecato
+    describe("/indicator testing", () => {
+
+        it("get allindecators pass", async () => {
+            // const [symbolId, timeframe, TI, startTime, endTime] = ['62f0960d419406d5471fb5c7', '15m', 'vwma', 1659934799999, 1659944699999]
+
+            const res = await request(server).get("/indicators")
+              
+
+            expect(res.status).toBe(200);
+        });
+
+        it("getsindicator by id pass", async () => {
+
+            const res = await request(server).get("/indicators/id/6371093d29986788030658b7")
+
+
+            expect(res.status).toBe(200);
+        });
+
+        it("getsindicator by id fail", async () => {
+
+            const res = await request(server).get("/indicators/id/6370fde0e232393f37d")
+
+
+            expect(res.status).toBe(501);
+        });
+
+        it("getsindicator by id fail2", async () => {
+
+            const res = await request(server).get("/indicators/id/")
+
+
+            expect(res.status).toBe(404);
+        });
+    })
+
+
 
 });
 

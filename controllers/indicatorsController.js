@@ -161,7 +161,7 @@ const getIndicatorByID = async (req, res) => {
 		const indicator = await indicatorService.getIndicatorByID(req.params.id);
 		indicator ?
 			res.status(200).json({ status: 'SUCCESS', data: indicator }) :
-			res.status(500).json({ status: 'FAILED', data: null });
+			res.status(501).json({ status: 'FAILED', data: null });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ status: 'FAILED', data: null });
@@ -171,5 +171,6 @@ const getIndicatorByID = async (req, res) => {
 module.exports = {
 	getTAData,
 	getAllIndicators,
-	getIndicatorByID
+	getIndicatorByID,
+	calculate
 };

@@ -83,6 +83,41 @@ const getItemList = asyncHandler(async (req, res) => {
 });
 
 
+const removeItem = asyncHandler(async (req, res) => {
+
+	const { symbolId, userId } = req.body;
+
+	// Validation
+	if (!symbolId || !userId) {
+		res.status(400);
+		throw new Error('Please include all fields');
+	}
+
+	if (userId !== req.user._id.toString()) {
+
+		res.status(401);
+		throw new Error('user id is not mached');
+	}
+
+
+	// data should be came from this format
+	// const [symbolId, userId] = ['636b8bb5aaa1bf2ed613be63', '633fac06895400a2403fea19'];
+
+
+	//save to db 
+	await User.findByIdAndUpdate(
+		{ _id: userId },
+		{ '$pull': { 'watchlist_items': symbolId } }
+	).exec(console.log('remove successful'));
+
+
+	res.status(200).json({ msg: 'remove successful' });
+
+});
+
+
+
+
 
 
 
@@ -91,4 +126,5 @@ const getItemList = asyncHandler(async (req, res) => {
 module.exports = {
 	saveItem,
 	getItemList,
+	removeItem
 };

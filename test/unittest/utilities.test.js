@@ -1,8 +1,15 @@
 
 /* eslint-disable */
+const csvHandler = require('../../utilities/csvHandler');
+jest.mock('../../utilities/csvHandler', () => ({
+	doSomething: jest.fn(),
+	parseCSVDataToArrayFromAFile:jest.fn((val1,val2,val3)=>{
+			return 2
+	})
+  }));
+
 const { generateARandomUUID } = require('../../utilities/uuidHelper');
-const { read1HourData, read5MinData, read1DayData } = require('../../utilities/priceDataStoreUtility');
-// const { parseCSVDataToArrayFromAFile } = require('../../utilities/csvHandler');
+const { read1HourData, read5MinData, read1DayData ,getCSVToArray} = require('../../utilities/priceDataStoreUtility');
 
 
 // describe('utilites Test for csvHandler', () => {
@@ -13,6 +20,32 @@ const { read1HourData, read5MinData, read1DayData } = require('../../utilities/p
 // 	// 	expect(generateARandomUUID().length >= 5).toBe(true);
 // 	// });
 // });
+
+describe('mock one', () => {
+	// const addMock = jest.spyOn(csvHandler, "parseCSVDataToArrayFromAFile");
+	// addMock.mockImplementation(() => 2);
+
+	
+	it('mock one 5min', async() => {
+		expect(await getCSVToArray('default','a/','5m')).toEqual(2);
+	});
+
+	it('mock one 1h', async() => {
+		expect(await getCSVToArray('default','a/','1h')).toEqual(2);
+	});
+
+	it('mock one 1D', async() => {
+		expect(await getCSVToArray('default','a/','1D')).toEqual(2);
+	});
+
+	it('mock one 8D', async() => {
+		expect(await getCSVToArray('default','a/','8D')).toEqual([]);
+	});
+
+
+});
+
+
 
 
 
@@ -91,4 +124,6 @@ describe('utilites Test for 1h data reader', () => {
 	});
 
 });
+
+
 

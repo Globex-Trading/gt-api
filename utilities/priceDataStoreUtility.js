@@ -42,14 +42,14 @@ const read5MinData = (record) => {
 const getCSVToArray = async (provider, filePath, interval) => {
 	if (provider === 'default') {
 		switch (interval) {
-			case '5m':
-				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read5MinData);
-			case '1h':
-				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1HourData);
-			case '1D':
-				return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1DayData);
-			default:
-				return [];
+		case '5m':
+			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read5MinData);
+		case '1h':
+			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1HourData);
+		case '1D':
+			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1DayData);
+		default:
+			return [];
 		}
 	} else {
 		return [];

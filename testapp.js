@@ -30,9 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //Set Routers
 app.use('/watchlist', require('./routes/watchlist'));
-// 
 app.use('/indicators', require('./routes/indicators'));
-
 // app.use('/alerts', require('./routes/alerts'));
 app.use('/trading-data', require('./routes/tradingData'));
 app.use('/users', require('./routes/userRoutes'));
@@ -47,7 +45,3 @@ app.use('/symbols', require('./routes/symbol'));
 // exports.httpsApp = httpsServer;
 exports.app = app;
 
-// const port = process.env.NODE_PORT || 3000;
-// const server = app.listen(port, () => { });
-
-// module.exports = server;

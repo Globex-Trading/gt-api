@@ -36,7 +36,8 @@ const getProviderBySlugWithSymbols = async (providerSlug) => {
 				},
 			},
 		]).exec();
-		if(providers.length === 0) return null;
+		
+		if(providers.length === 0) return 0;
 		else return providers[0];
 	} catch (e) {
 		console.log(e);

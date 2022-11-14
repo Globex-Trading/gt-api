@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">95.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/26</span>
+                <span class='fraction'>23/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.17% </span>
+                <span class="strong">95.65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/23</span>
+                <span class='fraction'>22/23</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,7 +114,9 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -147,20 +149,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">73x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
@@ -197,21 +201,23 @@ const getProviderBySlugWithSymbols = async (req,res) =&gt; {
 	});
 };
 &nbsp;
-const getSymbolsAndTimeframesForFetcherBySlug = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
-	const providerSlug = <span class="cstat-no" title="statement not covered" >req.params.provider_slug;</span>
-<span class="cstat-no" title="statement not covered" >	if (!providerSlug) <span class="cstat-no" title="statement not covered" >return res.status(401);</span></span>
+const getSymbolsAndTimeframesForFetcherBySlug = async (req, res) =&gt; {
+	const providerSlug = req.params.provider_slug;
 &nbsp;
-	const provider = <span class="cstat-no" title="statement not covered" >await providerService.getProviderBySlugWithSymbols(providerSlug);</span>
-<span class="cstat-no" title="statement not covered" >	if (!provider) <span class="cstat-no" title="statement not covered" >return res.status(401);</span></span>
+	const provider = await providerService.getProviderBySlugWithSymbols(providerSlug);
 &nbsp;
-	const data = <span class="cstat-no" title="statement not covered" >{};</span>
-<span class="cstat-no" title="statement not covered" >	data['timeframes'] = provider.providedTimeFrames;</span>
-	const symbols = <span class="cstat-no" title="statement not covered" >provider.symbols.map(<span class="fstat-no" title="function not covered" >s </span>=&gt; {</span>
-<span class="cstat-no" title="statement not covered" >		return s.providedName;</span>
+	if (provider===0) {
+		return res.status(400).end();
+	}
+&nbsp;
+	const data = {};
+	data['timeframes'] = provider.providedTimeFrames;
+	const symbols = provider.symbols.map(s =&gt; {
+		return s.providedName;
 	});
-<span class="cstat-no" title="statement not covered" >	data['symbols'] = symbols;</span>
+	data['symbols'] = symbols;
 &nbsp;
-<span class="cstat-no" title="statement not covered" >	return res.status(200).json(data);</span>
+	return res.status(200).json(data);
 };
 &nbsp;
 exports.getAllProvidersWithSymbols = getAllProvidersWithSymbols;
@@ -223,7 +229,7 @@ exports.getSymbolsAndTimeframesForFetcherBySlug = getSymbolsAndTimeframesForFetc
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-13T16:42:55.170Z
+                at 2022-11-14T16:21:23.470Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -32,10 +32,12 @@ const getProviderBySlugWithSymbols = async (req,res) => {
 
 const getSymbolsAndTimeframesForFetcherBySlug = async (req, res) => {
 	const providerSlug = req.params.provider_slug;
-	if (!providerSlug) return res.status(401);
 
 	const provider = await providerService.getProviderBySlugWithSymbols(providerSlug);
-	if (!provider) return res.status(401);
+
+	if (provider===0) {
+		return res.status(400).end();
+	}
 
 	const data = {};
 	data['timeframes'] = provider.providedTimeFrames;

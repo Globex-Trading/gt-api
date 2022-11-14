@@ -132,51 +132,57 @@ describe("/indicator testing", () => {
     })
 
     describe("/indicatorcalculator testing", () => {
-        it('sma', async () => {
-            expect(typeof await calculate(data,'sma')).toBe('object');
-        });
 
-        it('ema', async () => {
-            expect(typeof await calculate(data,'ema')).toBe('object');
-        });
+            it('sma', async () => {
+                expect(typeof await calculate(data,'sma')).toBe('object');
+            });
     
-        it('bband', async () => {
-            expect(typeof await calculate(data,'bbands')).toBe('object');
-        });
-    
-        it('wma', async () => {
-            expect(typeof await calculate(data,'wma')).toBe('object');
-        });
-    
-        it('rsi', async () => {
-            expect(typeof await calculate(data,'rsi')).toBe('object');
-        });
-    
-        it('macd', async () => {
-            expect(typeof await calculate(data,'macd')).toBe('object');
-        });
-    
-        it('roc', async () => {
-            expect(typeof await calculate(data,'roc')).toBe('object');
-        });
-        it('stoch', async () => {
-            expect(typeof await calculate(data,'stoch')).toBe('object');
-        });
-        it('obv', async () => {
-            expect(typeof await calculate(data,'obv')).toBe('object');
-        });
-    
-        it('md', async () => {
-            expect(typeof await calculate(data,'md')).toBe('object');
-        });
-        it('rocr', async () => {
-            expect(typeof await calculate(data,'rocr')).toBe('object');
-        });
-        it('vwma', async () => {
-            expect(typeof await calculate(data,'vwma')).toBe('object');
-        });
+            it('ema', async () => {
+                expect(typeof await calculate(data,'ema')).toBe('object');
+            });
         
+            it('bband', async () => {
+                expect(typeof await calculate(data,'bbands')).toBe('object');
+            });
+        
+            it('wma', async () => {
+                expect(typeof await calculate(data,'wma')).toBe('object');
+            });
+        
+            it('rsi', async () => {
+                expect(typeof await calculate(data,'rsi')).toBe('object');
+            });
+        
+            it('macd', async () => {
+                expect(typeof await calculate(data,'macd')).toBe('object');
+            });
+        
+            it('roc', async () => {
+                expect(typeof await calculate(data,'roc')).toBe('object');
+            });
+            it('stoch', async () => {
+                expect(typeof await calculate(data,'stoch')).toBe('object');
+            });
+            it('obv', async () => {
+                expect(typeof await calculate(data,'obv')).toBe('object');
+            });
+        
+            it('md', async () => {
+                expect(typeof await calculate(data,'md')).toBe('object');
+            });
+            it('rocr', async () => {
+                expect(typeof await calculate(data,'rocr')).toBe('object');
+            });
+            it('vwma', async () => {
+                expect(typeof await calculate(data,'vwma')).toBe('object');
+            });
+
+
     })
+
+    test('should throw an error', async() => {
+        expect( ()=> calculate(data,'error')).toThrow(Error);
+      })
 
 
 

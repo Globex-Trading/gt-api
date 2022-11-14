@@ -11,7 +11,7 @@ mongoose.connect(url);
 let server;
 
 
-jest.setTimeout(60000);
+// jest.setTimeout(30000);
 
 describe("/provider testing", () => {
 
@@ -62,27 +62,27 @@ describe("/provider testing", () => {
         });
     })
 
-    // describe("test provider/for-fetcher/slug", () => {
+    describe("test provider/for-fetcher/slug", () => {
 
-    //     // it("getSymbolsAndTimeframesForFetcherBySlug  pass ", async () => {
+        it("getSymbolsAndTimeframesForFetcherBySlug  pass ", async () => {
 
-    //     //     const res = await request(server)
-    //     //     .get("/providers/for-fetcher/slug/62f09406d5471fb5c7")
-
-
-    //     //     expect(res.status).toBe(401);
-    //     // });
+            const res = await request(server)
+            .get("/providers/for-fetcher/slug/binance")
 
 
-    //     // it("getsymbol by id fail 1", async () => {
-
-    //     //     const res = await request(server)
-    //     //         .get("/providers/for-fetcher/slug/jshs")
+            expect(res.status).toBe(200);
+        });
 
 
-    //     //     expect(res.status).toBe(401);
-    //     // });
-    // })
+        it("getSymbolsAndTimeframesForFetcherBySlug  pass ", async () => {
+
+            const res = await request(server)
+            .get("/providers/for-fetcher/slug/kucoin")
+
+
+            expect(res.status).toBe(400);
+        });
+    })
 
 
 

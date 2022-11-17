@@ -80,10 +80,19 @@ const getToken = asyncHandler(async (req, res) => {
 		res.status(401);
 		throw new Error('configToken or userID not found');
 	}
-	res.status(201).json({
-		configToken: configToken,
-		userID: userID
-	});
+	// res.status(201).json({
+	// 	configToken: configToken,
+	// 	userID: userID
+	// });
+
+	const user = await User.findById(userID);
+	// console.log(user.id);
+	if(user){
+		const configtokens=user.config_tokens;
+		if(configtokens.includes(configToken)){
+			return res.status(200).json({ msg: 'token already exist' });
+		}
+	}
 
 
 	//save to db (configToken, userID)
@@ -91,7 +100,8 @@ const getToken = asyncHandler(async (req, res) => {
 	const updated = await User.findByIdAndUpdate(
 		{ _id: userID },
 		{ '$push': { 'config_tokens': configToken } }
-	).exec(console.log('user not found'));
+	).exec(console.log(''));
+	return res.status(201).json({ msg: 'save successfull' });
 
 
 });

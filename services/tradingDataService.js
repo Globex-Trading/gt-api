@@ -10,7 +10,7 @@ const findPastData = async (symbolID, interval, start, end) => {
 		// find data from the database
 		return await Candle.find({open_time: {$gte: start, $lte: end}});
 	}catch (err) {
-		console.log(err);
+		// console.log(err);
 		return null;
 	}
 };

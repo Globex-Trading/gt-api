@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1668442883572" clover="3.2.0">
-  <project timestamp="1668442883572" name="All files">
-    <metrics statements="500" coveredstatements="476" conditionals="83" coveredconditionals="77" methods="90" coveredmethods="88" elements="673" coveredelements="641" complexity="0" loc="500" ncloc="500" packages="9" files="29" classes="29"/>
+<coverage generated="1668595041213" clover="3.2.0">
+  <project timestamp="1668595041213" name="All files">
+    <metrics statements="499" coveredstatements="476" conditionals="83" coveredconditionals="77" methods="90" coveredmethods="88" elements="672" coveredelements="641" complexity="0" loc="499" ncloc="499" packages="9" files="29" classes="29"/>
     <package name="gt-api">
       <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="testapp.js" path="C:\Users\sandu\Desktop\sem5\SEP\code\gt-api\testapp.js">
@@ -490,7 +490,7 @@
       </file>
     </package>
     <package name="gt-api.services">
-      <metrics statements="68" coveredstatements="52" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
+      <metrics statements="67" coveredstatements="52" conditionals="2" coveredconditionals="2" methods="9" coveredmethods="9"/>
       <file name="indicatorService.js" path="C:\Users\sandu\Desktop\sem5\SEP\code\gt-api\services\indicatorService.js">
         <metrics statements="12" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="7" type="stmt"/>
@@ -558,7 +558,7 @@
         <line num="35" count="7" type="stmt"/>
       </file>
       <file name="tradingDataService.js" path="C:\Users\sandu\Desktop\sem5\SEP\code\gt-api\services\tradingDataService.js">
-        <metrics statements="11" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="6" type="stmt"/>
         <line num="2" count="6" type="stmt"/>
         <line num="4" count="6" type="stmt"/>
@@ -567,7 +567,6 @@
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="18" count="6" type="stmt"/>
       </file>

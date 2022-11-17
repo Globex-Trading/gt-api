@@ -19,6 +19,15 @@ const saveItem = asyncHandler(async (req, res) => {
 		throw new Error('user id is not mached');
 	}
 
+	const user = await User.findById(userId);
+	// console.log(user.id);
+	if(user){
+		const watchlist=user.watchlist_items;
+		if(watchlist.includes(symbolId)){
+			return res.status(200).json({ msg: 'item already exist' });
+		}
+	}
+
 
 	// data should be came from this format
 	// const [symbolId, userId] = ['62f0960d419406d5471fb5c7', '633fac06895400a2403fea19'];

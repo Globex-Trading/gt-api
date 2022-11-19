@@ -75,7 +75,7 @@ describe("/servicer", () => {
                 .post("/watchlist/saveitem")
                 .set('authorization', 'Bearer '.concat(token))
                 .send({
-                    symbolId: "62f0960d419406d5471fb5c7",
+                    symbolIdList: ["62f0960d419406d5471fb5c7"],
                     userId: userid,
 
                 });
@@ -108,7 +108,7 @@ describe("/servicer", () => {
                 .post("/watchlist/saveitem")
                 .set('authorization', 'Bearer '.concat(token))
                 .send({
-                    symbolId: "62f0960d419406d5471fb5c7",
+                    symbolIdList: ["62f0960d419406d5471fb5c7"],
                     userId: "5s55sd5",
 
                 });

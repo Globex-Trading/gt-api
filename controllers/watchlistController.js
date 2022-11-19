@@ -28,7 +28,7 @@ const saveItem = asyncHandler(async (req, res) => {
 		
 		const watchlist=user.watchlist_items;
 
-		symbolIdList.forEach(async(symbolId) => {
+		for (const symbolId of symbolIdList){
 			if(watchlist.includes(symbolId)){
 				// nothin happens
 			}
@@ -39,7 +39,7 @@ const saveItem = asyncHandler(async (req, res) => {
 				).exec(console.log('save successful'));
 			
 			}
-		});
+		}
 
 		
 		return res.status(200).json({ msg: 'save successful' });

@@ -6,7 +6,7 @@ mongoose.connect(url);
 
 const { Symbol } = require('../../models/symbol');
 
-
+jest.setTimeout(30000);
 describe('insert', () => {
     // 	let connection;
     // 	let db;

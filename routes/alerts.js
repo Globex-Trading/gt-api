@@ -6,7 +6,7 @@ const { protect } = require('../middleware/authMiddleware');
 
 router
 	.get('/:userID',protect, getAlertsByUserID)
-	.post('/trigger-alerts',protect, triggerAlerts)
+	.post('/trigger-alerts', triggerAlerts)
 	.post('/add-alert',protect, addAlert)
 	.post('/gettoken',protect, getToken)
 	.post('/sendtest', sendTest)

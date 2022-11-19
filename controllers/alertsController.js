@@ -165,11 +165,37 @@ const sendTest = asyncHandler(async (req, res) => {
 
 });
 
+const removeAlert = asyncHandler(async (req, res) => {
+	
+	const { alertID } = req.body;
+
+	if (alertID) {
+		res.status(401);
+		throw new Error('alertID not found');
+	}
+
+	const alert=Alert.findById(alertID);
+
+	if(!alert){
+		return res.status(400).json({ msg: 'cannot find the alert' });
+	}
+	
+
+	await Alert.findByIdAndRemove(alertID);
+	// console.log(user.id);
+	
+	return res.status(200).json({ msg: 'alert successfully deleted' });
+	
+
+
+});
+
 module.exports = {
 	triggerAlerts,
 	getToken,
 	addAlert,
 	getAlertsByUserID,
+	removeAlert,
 	sendTest
 
 };

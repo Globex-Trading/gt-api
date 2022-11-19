@@ -5,10 +5,10 @@ const { getSymbolAndProviderByID } = require('../services/symbolService');
 
 const saveItem = asyncHandler(async (req, res) => {
 
-	const { symbolId, userId } = req.body;
+	const { symbolIdList, userId } = req.body;
 
 	// Validation
-	if (!symbolId || !userId) {
+	if (!symbolIdList || !userId) {
 		res.status(400);
 		throw new Error('Please include all fields');
 	}
@@ -19,13 +19,31 @@ const saveItem = asyncHandler(async (req, res) => {
 		throw new Error('user id is not mached');
 	}
 
+
+
 	const user = await User.findById(userId);
 	// console.log(user.id);
 	if(user){
+		
+		
 		const watchlist=user.watchlist_items;
-		if(watchlist.includes(symbolId)){
-			return res.status(200).json({ msg: 'item already exist' });
-		}
+
+		symbolIdList.forEach(async(symbolId) => {
+			if(watchlist.includes(symbolId)){
+				// nothin happens
+			}
+			else{
+				await User.findByIdAndUpdate(
+					{ _id: userId },
+					{ '$push': { 'watchlist_items': symbolId } }
+				).exec(console.log('save successful'));
+			
+			}
+		});
+
+		
+		return res.status(200).json({ msg: 'save successful' });
+		
 	}
 
 
@@ -34,13 +52,13 @@ const saveItem = asyncHandler(async (req, res) => {
 
 
 	//save to db 
-	await User.findByIdAndUpdate(
-		{ _id: userId },
-		{ '$push': { 'watchlist_items': symbolId } }
-	).exec(console.log('save successful'));
+	// await User.findByIdAndUpdate(
+	// 	{ _id: userId },
+	// 	{ '$push': { 'watchlist_items': symbolId } }
+	// ).exec(console.log('save successful'));
 
 
-	res.status(200).json({ msg: 'save successful' });
+	res.status(400).json({ msg: 'cannot find the user' });
 
 });
 

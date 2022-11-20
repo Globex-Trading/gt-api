@@ -28,9 +28,10 @@ const read1HourData = (record) => {
 };
 
 const read5MinData = (record) => {
+	const openTime = moment.utc(record[0] + 'T' + record[1], moment.ISO_8601).unix();
 	return {
-		open_time: record[0] + record[1],
-		close_time: 'c',
+		open_time: openTime,
+		close_time: openTime + 600 - 1,
 		open_price: record[2],
 		close_price: record[5],
 		high_price: record[3],

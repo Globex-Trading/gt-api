@@ -32,6 +32,7 @@ const storePriceData = async (req,res) => {
 	//Get priceData from CSV to an array
 	const priceData = await priceDataStoreUtility.getCSVToArray('default', dataFile.path, timeInterval);
 	console.log('Read rows -', priceData.length);
+	console.log(priceData);
 
 	//Save data to DB
 	await priceDataStoreService.upsertPriceData(providerSlug, symbolProvidedName, timeInterval, priceData);

@@ -40,30 +40,32 @@ const triggerAlerts = asyncHandler(async (req, res) => {
 
 		//get alert from each object 
 		const title = itm.symbol;
-		const msg = itm.trigger_price;
+		const msg = `Price has been reached to $${itm.trigger_price.toString()} at ${new Date().toLocaleString()}`;
 
 
 		//get config token list from db using user id
 		const user = await User.findById(itm.user).exec();
 		const configTokens = user.config_tokens;
 
+		if(!itm.is_triggered) {
 
-		configTokens.map((token) => {
-			sendAlerts(token, title, msg);
+			configTokens.map((token) => {
+				sendAlerts(token, title, msg);
+			});
 
+			user.notification_items.push({
+				title: title,
+				data: msg
 
-		});
+			});
 
-		user.notification_items.push({
-			title: title,
-			data: msg
+			user.save();
 
-		});
-
-		user.save();
-
-
-
+		
+			//set isTriggered to true
+			itm.is_triggered = true;
+			itm.save();
+		}
 
 	});
 

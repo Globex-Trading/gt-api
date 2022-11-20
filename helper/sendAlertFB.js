@@ -25,9 +25,11 @@ const sendAlerts = (configToken, title, msg) => {
 	admin.messaging().sendToDevice(configToken, payload)
 		.then(function (response) {
 			console.log('Successfully sent message:', response);
+			return response;
 		})
 		.catch(function (error) {
 			console.log('Error sending message:', error);
+			return error;
 		});
 
 };

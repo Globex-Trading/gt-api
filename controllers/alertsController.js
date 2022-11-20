@@ -171,12 +171,12 @@ const removeAlert = asyncHandler(async (req, res) => {
 	
 	const { alertID } = req.body;
 
-	if (alertID) {
+	if (!alertID) {
 		res.status(401);
 		throw new Error('alertID not found');
 	}
 
-	const alert=Alert.findById(alertID);
+	const alert= await Alert.findById(alertID);
 
 	if(!alert){
 		return res.status(400).json({ msg: 'cannot find the alert' });

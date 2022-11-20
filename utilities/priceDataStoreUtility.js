@@ -47,7 +47,7 @@ const getCSVToArray = async (provider, filePath, interval) => {
 			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read5MinData);
 		case '1h':
 			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1HourData);
-		case '1D':
+		case '1d':
 			return await csvHandler.parseCSVDataToArrayFromAFile(filePath, ',', read1DayData);
 		default:
 			return [];

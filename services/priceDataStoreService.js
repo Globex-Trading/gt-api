@@ -6,7 +6,6 @@ const upsertPriceData = async (provider, symbol, interval, priceData) => {
 
 	try {
 		await Candle.insertMany(priceData, { ordered: false });
-		console.log('Inserted');
 	}catch (error) {
 		console.log(error);
 	}

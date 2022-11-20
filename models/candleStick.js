@@ -4,6 +4,10 @@ const candleSchema = new mongoose.Schema({
 	open_time: {
 		type: Number,
 		required: true,
+		index: {
+			type: -1,
+			unique: true
+		}
 	},
 	close_time: {
 		type: Number,
@@ -25,10 +29,19 @@ const candleSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 	},
+	volume: {
+		type: Number,
+		required: true,
+	}
 });
 
+const candleModelStore = {};
+
 const getModelForCollection = (collectionName) => {
-	return mongoose.model('Candle', candleSchema, collectionName);
+	if(!candleModelStore[collectionName]) {
+		candleModelStore[collectionName] = mongoose.model('Candle', candleSchema, collectionName);
+	}
+	return candleModelStore[collectionName];
 };
 
-exports.getModelForCollection = getModelForCollection;
+exports.getCandleModelForCollection = getModelForCollection;

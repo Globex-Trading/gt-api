@@ -41,7 +41,26 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		type: Boolean,
 		default: false
-	}
+	},
+	config_tokens: {
+		type: [String],
+		required: false
+
+	},
+	watchlist_items: {
+		type: [String],
+		required: false
+
+	},
+	notification_items: {
+		type: [{
+			title: String,
+			data: String
+		}],
+		required: false
+
+	},
+
 });
 
 const userModel = mongoose.model('User', userSchema);
